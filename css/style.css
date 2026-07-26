@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #181A18;
+    color: #F4F2EC;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* =========================
+   Header
+========================= */
+
+header {
+    max-width: 1200px;
+    margin: 40px auto 30px;
+    padding: 0 24px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+header h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #B8B8B8;
+    font-size: 1.2rem;
+}
+
+.discord {
+    text-align: right;
+}
+
+.discord p:first-child {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.discord a {
+    color: #F4F2EC;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.discord a:hover {
+    color: #6E8B74;
+}
+
+/* =========================
+   Gallery
+========================= */
+
+.gallery {
+    max-width: 1400px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.gallery img:hover {
+    transform: scale(1.02);
+
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .discord {
+        text-align: left;
+    }
+
+    header h1 {
+        font-size: 3rem;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+}
