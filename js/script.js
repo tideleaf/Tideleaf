@@ -1,6 +1,6 @@
 const gallery = document.getElementById("gallery");
 
-const imageCount = 59;
+const imageCount = 71;
 const extension = "png";
 
 let currentImage = 1;
