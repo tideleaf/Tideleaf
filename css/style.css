@@ -15,3 +15,26 @@ header p,.discord p{color:#999}
 .lightbox img{max-width:90vw;max-height:90vh;width:auto;border-radius:12px}
 .close{position:absolute;top:20px;right:30px;font-size:48px;color:#fff;cursor:pointer}
 @media(max-width:768px){header{flex-direction:column;text-align:center}.gallery{grid-template-columns:1fr}}
+.new-image {
+    position: relative;
+    display: block;
+}
+
+.new-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    z-index: 10;
+
+    background: white;
+    color: black;
+
+    padding: 5px 9px;
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
