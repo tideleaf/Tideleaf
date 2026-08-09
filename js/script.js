@@ -3,7 +3,7 @@ const gallery = document.getElementById("gallery");
 const imageCount = 78;
 const extension = "png";
 
-// Hur många av de senaste bilderna som ska märkas "NY"
+// Hur många av de senaste bilderna som ska märkas "NEW"
 const newImageCount = 7;
 
 let currentImage = imageCount;
