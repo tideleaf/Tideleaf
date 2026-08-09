@@ -1,10 +1,10 @@
 const gallery = document.getElementById("gallery");
 
-const imageCount = 78;
+const imageCount = 79;
 const extension = "png";
 
 // Hur många av de senaste bilderna som ska märkas "NEW"
-const newImageCount = 7;
+const newImageCount = 8;
 
 let currentImage = imageCount;
 
