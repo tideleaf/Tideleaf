@@ -6,7 +6,7 @@ const extension = "png";
 // Hur många av de senaste bilderna som ska märkas "NEW"
 const newImageCount = 8;
 
-// Antal bilder som visas på varje sida
+// Antal bilder per sida
 const imagesPerPage = 20;
 
 let currentImage = imageCount;
@@ -44,11 +44,15 @@ function buildGallery(page) {
 
     const totalPages = Math.ceil(imageCount / imagesPerPage);
 
-    const newestImage = imageCount - ((page - 1) * imagesPerPage);
-    const oldestImage = Math.max(
-        1,
-        newestImage - imagesPerPage + 1
-    );
+    const newestImage =
+        imageCount - ((page - 1) * imagesPerPage);
+
+    const oldestImage =
+        Math.max(
+            1,
+            newestImage - imagesPerPage + 1
+        );
+
 
     // Nyaste bilden först
     for (let i = newestImage; i >= oldestImage; i--) {
@@ -64,18 +68,20 @@ function buildGallery(page) {
         link.dataset.imageNumber = i;
 
 
+        // Bild
         const img = document.createElement("img");
 
         img.src = `images/${filename}`;
         img.alt = `Photo ${i}`;
 
 
-        // Märk de senaste bilderna
+        // NEW-markering
         if (i > imageCount - newImageCount) {
 
             link.classList.add("new-image");
 
-            const badge = document.createElement("span");
+            const badge =
+                document.createElement("span");
 
             badge.className = "new-badge";
             badge.textContent = "NEW";
@@ -107,7 +113,7 @@ function buildGallery(page) {
 
 
 // ============================
-// Bygg sidknappar
+// Sidnavigering
 // ============================
 
 function buildPagination(totalPages) {
@@ -115,13 +121,21 @@ function buildPagination(totalPages) {
     pagination.innerHTML = "";
 
 
-    // Föregående
+    const navigation =
+        document.createElement("div");
+
+    navigation.className =
+        "page-navigation";
+
+
+    // Previous
     if (currentPage > 1) {
 
         const previousButton =
             document.createElement("button");
 
-        previousButton.textContent = "← Föregående";
+        previousButton.textContent =
+            "← Previous";
 
         previousButton.addEventListener("click", () => {
 
@@ -133,27 +147,28 @@ function buildPagination(totalPages) {
             });
         });
 
-        pagination.appendChild(previousButton);
+        navigation.appendChild(previousButton);
     }
 
 
-    // Sida X av X
+    // Page X of X
     const pageInfo =
         document.createElement("span");
 
     pageInfo.textContent =
-        `Sida ${currentPage} av ${totalPages}`;
+        `Page ${currentPage} of ${totalPages}`;
 
-    pagination.appendChild(pageInfo);
+    navigation.appendChild(pageInfo);
 
 
-    // Nästa
+    // Next
     if (currentPage < totalPages) {
 
         const nextButton =
             document.createElement("button");
 
-        nextButton.textContent = "Nästa →";
+        nextButton.textContent =
+            "Next →";
 
         nextButton.addEventListener("click", () => {
 
@@ -165,8 +180,11 @@ function buildPagination(totalPages) {
             });
         });
 
-        pagination.appendChild(nextButton);
+        navigation.appendChild(nextButton);
     }
+
+
+    pagination.appendChild(navigation);
 }
 
 
