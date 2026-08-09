@@ -35,7 +35,7 @@ for (let i = imageCount; i >= 1; i--) {
 
         const badge = document.createElement("span");
         badge.className = "new-badge";
-        badge.textContent = "NY";
+        badge.textContent = "NEW";
 
         link.appendChild(badge);
     }
