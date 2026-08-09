@@ -312,4 +312,4 @@ document.addEventListener("keydown", (event) => {
 // Starta galleri
 // ============================
 
-buildGallery(1);
+buildGallery(1);S
