@@ -6,43 +6,11 @@ const extension = "png";
 // Hur många av de senaste bilderna som ska märkas "NEW"
 const newImageCount = 8;
 
+// Antal bilder som visas på varje sida
+const imagesPerPage = 20;
+
 let currentImage = imageCount;
-
-
-// ============================
-// Bygg galleri
-// ============================
-
-// Nyaste bilden först
-for (let i = imageCount; i >= 1; i--) {
-
-    const filename = `${String(i).padStart(3, "0")}.${extension}`;
-
-    const link = document.createElement("a");
-    link.href = `images/${filename}`;
-
-    // Spara bildnumret så vi alltid öppnar rätt bild
-    link.dataset.imageNumber = i;
-
-    const img = document.createElement("img");
-    img.src = `images/${filename}`;
-    img.alt = `Photo ${i}`;
-
-    // Märk de senaste bilderna
-    if (i > imageCount - newImageCount) {
-
-        link.classList.add("new-image");
-
-        const badge = document.createElement("span");
-        badge.className = "new-badge";
-        badge.textContent = "NEW";
-
-        link.appendChild(badge);
-    }
-
-    link.appendChild(img);
-    gallery.appendChild(link);
-}
+let currentPage = 1;
 
 
 // ============================
@@ -53,22 +21,153 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const closeButton = document.querySelector(".close");
 
-const links = document.querySelectorAll("#gallery a");
+
+// ============================
+// Skapa sidnavigering
+// ============================
+
+const pagination = document.createElement("div");
+pagination.className = "pagination";
+
+gallery.after(pagination);
 
 
-// Klick på bild
-links.forEach((link) => {
+// ============================
+// Bygg galleri
+// ============================
 
-    link.addEventListener("click", (event) => {
+function buildGallery(page) {
 
-        event.preventDefault();
+    gallery.innerHTML = "";
 
-        currentImage = Number(link.dataset.imageNumber);
+    currentPage = page;
 
-        openLightbox(currentImage);
-    });
+    const totalPages = Math.ceil(imageCount / imagesPerPage);
 
-});
+    const newestImage = imageCount - ((page - 1) * imagesPerPage);
+    const oldestImage = Math.max(
+        1,
+        newestImage - imagesPerPage + 1
+    );
+
+    // Nyaste bilden först
+    for (let i = newestImage; i >= oldestImage; i--) {
+
+        const filename =
+            `${String(i).padStart(3, "0")}.${extension}`;
+
+        const link = document.createElement("a");
+
+        link.href = `images/${filename}`;
+
+        // Spara bildnumret
+        link.dataset.imageNumber = i;
+
+
+        const img = document.createElement("img");
+
+        img.src = `images/${filename}`;
+        img.alt = `Photo ${i}`;
+
+
+        // Märk de senaste bilderna
+        if (i > imageCount - newImageCount) {
+
+            link.classList.add("new-image");
+
+            const badge = document.createElement("span");
+
+            badge.className = "new-badge";
+            badge.textContent = "NEW";
+
+            link.appendChild(badge);
+        }
+
+
+        link.appendChild(img);
+
+        gallery.appendChild(link);
+
+
+        // Klick på bild
+        link.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            currentImage =
+                Number(link.dataset.imageNumber);
+
+            openLightbox(currentImage);
+        });
+    }
+
+
+    buildPagination(totalPages);
+}
+
+
+// ============================
+// Bygg sidknappar
+// ============================
+
+function buildPagination(totalPages) {
+
+    pagination.innerHTML = "";
+
+
+    // Föregående
+    if (currentPage > 1) {
+
+        const previousButton =
+            document.createElement("button");
+
+        previousButton.textContent = "← Föregående";
+
+        previousButton.addEventListener("click", () => {
+
+            buildGallery(currentPage - 1);
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        pagination.appendChild(previousButton);
+    }
+
+
+    // Sida X av X
+    const pageInfo =
+        document.createElement("span");
+
+    pageInfo.textContent =
+        `Sida ${currentPage} av ${totalPages}`;
+
+    pagination.appendChild(pageInfo);
+
+
+    // Nästa
+    if (currentPage < totalPages) {
+
+        const nextButton =
+            document.createElement("button");
+
+        nextButton.textContent = "Nästa →";
+
+        nextButton.addEventListener("click", () => {
+
+            buildGallery(currentPage + 1);
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        pagination.appendChild(nextButton);
+    }
+}
 
 
 // ============================
@@ -80,7 +179,8 @@ function openLightbox(number) {
     const filename =
         `${String(number).padStart(3, "0")}.${extension}`;
 
-    lightboxImage.src = `images/${filename}`;
+    lightboxImage.src =
+        `images/${filename}`;
 
     lightbox.classList.remove("hidden");
 }
@@ -134,7 +234,10 @@ function previousImage() {
 // Stängknapp
 // ============================
 
-closeButton.addEventListener("click", closeLightbox);
+closeButton.addEventListener(
+    "click",
+    closeLightbox
+);
 
 
 // ============================
@@ -147,7 +250,6 @@ lightbox.addEventListener("click", (event) => {
 
         closeLightbox();
     }
-
 });
 
 
@@ -157,10 +259,11 @@ lightbox.addEventListener("click", (event) => {
 
 document.addEventListener("keydown", (event) => {
 
-    // Gör inget om lightboxen är stängd
     if (lightbox.classList.contains("hidden")) {
+
         return;
     }
+
 
     switch (event.key) {
 
@@ -184,5 +287,11 @@ document.addEventListener("keydown", (event) => {
 
             break;
     }
-
 });
+
+
+// ============================
+// Starta galleri
+// ============================
+
+buildGallery(1);
