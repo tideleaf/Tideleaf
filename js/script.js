@@ -27,7 +27,6 @@ for (let i = imageCount; i >= 1; i--) {
     const img = document.createElement("img");
     img.src = `images/${filename}`;
     img.alt = `Photo ${i}`;
-    img.loading = "lazy";
 
     // Märk de senaste bilderna
     if (i > imageCount - newImageCount) {
